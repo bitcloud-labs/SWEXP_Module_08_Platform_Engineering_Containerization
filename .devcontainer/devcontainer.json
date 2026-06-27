@@ -1,7 +1,7 @@
 // Dev container for the Forge SWEXP starter repo.
 // Open in GitHub Codespaces (Code -> Codespaces -> Create) or VS Code Dev Containers
 // for a zero-setup environment with Git, the right runtime, and the gh CLI preinstalled.
-// Then follow README.md / Lesson_00.md to pick up your first ticket.
+// Then follow README.md to pick up your first lab.
 {
   "name": "SWEXP 08 Platform Engineering Containerization",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
@@ -9,10 +9,13 @@
     "ghcr.io/devcontainers/features/node:1": {
       "version": "20"
     },
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.12"
+    },
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
-  "postCreateCommand": "echo '\\n=== Forge SWEXP environment ready ==='; git --version; node --version 2>/dev/null; echo 'Open README.md, then Lesson_00.md to begin.'",
+  "postCreateCommand": "npm install; python3 -c 'import yaml' 2>/dev/null || pip install --quiet pyyaml; echo '\\n=== Forge SWEXP environment ready ==='; git --version; node --version 2>/dev/null; python3 --version 2>/dev/null; docker --version 2>/dev/null; echo 'Open README.md, then start with labs/lab-00-setup.'",
   "customizations": {
     "vscode": {
       "extensions": [

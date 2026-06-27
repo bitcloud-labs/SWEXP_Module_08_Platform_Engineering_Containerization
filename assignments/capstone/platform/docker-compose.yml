@@ -1,0 +1,11 @@
+# Capstone — segmented web + api + db stack. See README.md.
+#
+# TODO: services web, api, db on frontend/backend networks (backend: internal: true):
+#   - web: frontend only, publishes 3000
+#   - api: frontend + backend (the bridge)
+#   - db:  backend only, publishes NOTHING
+#
+# Replace everything below.
+
+services: {}
+networks: {}

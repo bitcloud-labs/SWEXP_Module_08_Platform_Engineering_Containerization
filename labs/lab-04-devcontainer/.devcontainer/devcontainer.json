@@ -1,0 +1,5 @@
+{
+  "_TODO": "pin the image to a tag (not a bare 'node'), and make postCreateCommand deterministic with npm ci.",
+  "image": "node",
+  "postCreateCommand": "npm install"
+}

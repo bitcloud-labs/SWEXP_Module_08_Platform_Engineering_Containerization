@@ -1,0 +1,12 @@
+# Lab 03 — one-command dev environment. See README.md.
+#
+# TODO: define services web, api, db with:
+#   - db: image postgres:16.2, a healthcheck, and a NAMED volume for its data
+#   - api: DATABASE_URL pointing at db by name (must contain "@db:"),
+#          depends_on db with condition: service_healthy, publishes 8080
+#   - web: API_URL pointing at api by name (must contain "api:"), publishes 3000
+#   - a top-level volumes: entry for the db's named volume
+#
+# Replace everything below with your compose file.
+
+services: {}
