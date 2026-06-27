@@ -1,77 +1,83 @@
-# SWEXP Module 08 — Platform Engineering & Containerization
+# SWEXP Module 08 — Platform Engineering & Containerization (Interactive Workspace)
 
-**Theme:** Build Once. Run Anywhere — transform Project Forge into a reproducible engineering platform with a monorepo, containers, automated builds, and production-ready infrastructure.
+This is a **work-along starter workspace**, not a set of lessons to read. You learn by
+shipping infrastructure-as-code: you author Dockerfiles, a `docker-compose.yml`, a CI
+pipeline, and Kubernetes manifests, then an **autograder** checks each one against the
+quality bar (lint clean, parses, policy-checks green).
 
-You are a **Platform Engineer**. Forge is three apps built across earlier modules — a web frontend (M05), an API (M06), and a data layer (M07) — that currently run only on the original authors' laptops, set up by hand. Across 10 ticket-driven lessons you reorganize Forge into a monorepo, containerize its services, wire a one-command dev environment, make the toolchain reproducible, engineer lean production images, segment the container network, automate an unskippable CI/CD pipeline, stand up a production orchestration platform, and ship it.
+> The conceptual lessons, deep-dive guides, and the engineering-notebook template live in
+> the LMS and in [`resources/`](resources/). This repo is the hands-on half.
 
-The ethos, in every lesson: **build once, run anywhere**; **the artifact is immutable, configuration is injected**; **infrastructure as code**; **reproducible, not "works on my machine"**; **least privilege / minimal surface**; **automate the path to production**; **design for failure / operability**; and **developer experience is a feature**. AI is used as **draft → verify (parse/lint the config, run the build/policy logic, check the property) → log**.
+## How it works
 
-## How You Work Here
+Every exercise is a self-contained folder under [`labs/`](labs/) (and the capstone under
+[`assignments/`](assignments/)). Each folder contains:
 
-| Step | What it means |
-|------|---------------|
-| Pick up a ticket | Each lesson is an engineering ticket (`DOCK-2001`, `CI-4010`, …) with acceptance criteria |
-| Write infrastructure as code | Dockerfiles, compose, pipelines, manifests — declarative, versioned, reviewable |
-| Validate the artifact | Lint Dockerfiles; parse and policy-check YAML; test the logic |
-| Build once, inject config | One immutable image per service; configuration comes from the environment |
-| Least privilege | Non-root images, minimal bases, no secrets baked in, the database off the edge |
-| Automate the path | The CI/CD pipeline is the only way to ship; its gates are unskippable |
-| Verify AI | Draft → verify (lint / parse / policy-check) → log |
+- A `README.md` — the ticket: goal, what to do, and the definition of done.
+- A **starter artifact with `# TODO`s** — the file *you* edit. Depending on the lab this is a
+  `Dockerfile`, a `docker-compose.yml`, a `ci.yml`, a `deployment.yml`, a `package.json`,
+  and/or a `solution.sh`.
+- `tests/*.bats` — the **spec**. These are the executable acceptance criteria. Read them.
+- `fixtures/` — supporting files some labs need.
 
-## Learning Outcomes
+You finish a lab when its tests are green.
 
-By the end you will be able to:
-- Organize a monorepo with shared packages and an enforced dependency direction.
-- Containerize a service with a hygienic, pinned, non-root, cache-friendly Dockerfile.
-- Stand up a one-command dev environment with Docker Compose (health-gated, persistent).
-- Make the toolchain reproducible: pinned versions, committed lockfiles, dev containers.
-- Engineer lean multi-stage production images (minimal, non-root, healthchecked, no secrets).
-- Design a segmented container network where the database is unreachable from the edge.
-- Automate an unskippable CI/CD pipeline that promotes the tested image.
-- Operate a production container platform: replicas, probes, limits, zero-downtime rollouts.
-- Ship a coherent engineering platform with evidence for each quality bar.
+## Grading model (fast, deterministic, mostly Docker-free)
 
-## Lesson Index
+The autograder grades your **files**, not a live cluster:
 
-| # | Lesson | Competency | Ticket |
-|---|--------|-----------|--------|
-| 0 | Welcome to the Platform Engineering Team | Platform Engineering Orientation | PLAT-1000 |
-| 1 | Reorganize Project Forge | Monorepo Architecture | REPO-1010 |
-| 2 | Containerize the Platform | Docker Fundamentals | DOCK-2001 |
-| 3 | Build a One-Command Development Environment | Docker Compose | COMPOSE-2010 |
-| 4 | Eliminate "Works on My Machine" | Development Containers | DEVENV-3001 |
-| 5 | Engineer Production Images | Image Engineering | IMG-3010 |
-| 6 | Build the Container Network | Container Networking | NET-4001 |
-| 7 | Automate the Build Platform | Build Automation | CI-4010 |
-| 8 | Build the Production Container Platform | Production Containers | PROD-5001 |
-| 9 | Project Forge Engineering Platform | Engineering Platform Release | FORGE-9600 |
+- **Dockerfiles** are graded with static checks (pinned base, non-root `USER`,
+  `HEALTHCHECK`, multi-stage, no baked secrets, a complete `.dockerignore`).
+- **compose / CI / k8s YAML** is graded by **parsing** it with `python3` and asserting the
+  required services, networks, gates, probes, limits, and image pinning.
+- **shell scripts** (e.g. the monorepo boundary check) are run directly under `bats`.
+- Exactly **one** lab does a real `docker build` (a tiny `alpine` image) to prove your
+  Dockerfile actually builds. Everything else is build-free, so grading is fast and reliable.
 
-Phases: **Foundations** (0) → **Repository & Local Dev** (1–3) → **Reproducibility** (4–5) → **Networking & Automation** (6–7) → **Production** (8) → **Capstone** (9).
+## Quick start
 
-## Repository Layout
+```bash
+npm install            # installs bats (the test runner)
 
-```
-.
-├── README.md                      # this file
-├── MODULE_SYLLABUS.md             # pacing, structure, deliverables
-├── LEARNER_GUIDE.md               # how to operate as a platform engineer here
-├── INSTRUCTOR_GUIDE.md            # facilitation and assessment
-├── COMPETENCY_MATRIX.md           # lesson → competency → skills
-├── ASSESSMENT_RUBRIC.md           # grading weights and performance levels
-├── dashboard.html                 # interactive progress dashboard (open in a browser)
-├── Lesson_00.md … Lesson_09.md    # the 10 lessons
-├── labs/                          # hands-on labs (lint Dockerfiles; parse/policy-check YAML; test logic)
-├── solutions/                     # worked solutions / answer keys
-├── resources/                     # monorepo, Dockerfile, compose, reproducibility, images, networking, CI/CD, k8s + more
-├── assignments/                   # submission templates + capstone brief
-└── instructor-notes/              # per-lesson facilitation notes
+# work one lab:
+npx bats labs/lab-00-setup/tests
+# or grade everything (what CI runs):
+npm run grade
 ```
 
-## Getting Started
+`npm run grade` prints a per-exercise scoreboard and writes `grade-report.md`. It exits
+non-zero until **every** test passes and every shell script parses cleanly. Push your branch
+and the **Autograde** GitHub Action runs the same grader and comments your score on the PR.
 
-1. Read `resources/platform-setup-guide.md`; set up the toolchain (Lesson 0 / `labs/lab-00-setup.md`).
-2. Start your engineering notebook from `resources/engineering-notebook-template.md`.
-3. Open `dashboard.html` in your browser to track progress through the lessons and phases.
-4. Open `Lesson_00.md` and pick up your first ticket. Keep the relevant `resources/` references open as you build.
+## The labs
 
-**Verification.** The deliverables are infrastructure-as-code, so verification means **parsing and policy-checking the real artifacts**: a Dockerfile **linter** (pinned base, multi-stage, non-root, healthcheck, layer order, `.dockerignore`), a real **YAML parser** for compose/CI/Kubernetes (asserting the graph, the pipeline policy, the manifest properties), and **Node logic tests** (dependency boundaries, reproducibility, network reachability, gate order). There is **no container runtime** here — the artifacts are declarative, and the same files run unchanged where Docker/Kubernetes exist.
+| # | Folder | You author | Graded by |
+|---|--------|-----------|-----------|
+| 00 | `labs/lab-00-setup` | `config.yml` + a first `Dockerfile` | YAML parse + Dockerfile lint |
+| 01 | `labs/lab-01-monorepo` | `solution.sh` (boundary check) | bats (runs your script) |
+| 02 | `labs/lab-02-dockerfile` | `Dockerfile` + `.dockerignore` | static lint **+ one real `docker build`** |
+| 03 | `labs/lab-03-compose` | `docker-compose.yml` | YAML parse (services, health-gate, volume) |
+| 04 | `labs/lab-04-devcontainer` | `package.json` + `.devcontainer/devcontainer.json` | reproducibility checks |
+| 05 | `labs/lab-05-prod-image` | multi-stage `Dockerfile` | production-image lint |
+| 06 | `labs/lab-06-networking` | segmented `docker-compose.yml` | YAML reachability checks |
+| 07 | `labs/lab-07-ci` | `ci.yml` (a GitHub Actions workflow) | pipeline policy parse |
+| 08 | `labs/lab-08-production` | `deployment.yml` (Deployment + Service) | manifest policy parse |
+| — | `assignments/capstone` | integrate all of the above | static + parse checks |
+
+## Requirements
+
+- **Node 20+** (for `bats` and the grader).
+- **python3** (for YAML/JSON parsing in the graders) — preinstalled in the dev container.
+- **Docker** — only `lab-02` does a real build; if Docker is unavailable that one build test
+  will fail but every other test still runs. The CI runner (and the dev container) have Docker.
+
+The fastest way in: open this repo in **GitHub Codespaces** (Code → Codespaces → Create) or
+in VS Code Dev Containers — the [`.devcontainer`](.devcontainer/) gives you Node, python3,
+Docker, and the `gh` CLI with zero setup.
+
+## Submitting
+
+Commit and push your branch. The autograder scores it automatically and comments on your PR.
+Record your reasoning, trade-offs, and AI-usage log in the engineering notebook
+(`resources/engineering-notebook-template.md`) and the submission templates under
+[`assignments/`](assignments/).

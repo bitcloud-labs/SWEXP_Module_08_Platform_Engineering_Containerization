@@ -1,0 +1,9 @@
+# Capstone — CI/CD pipeline. See README.md.
+#
+# TODO: jobs.build steps in order (npm ci -> lint -> test -> docker build -> trivy -> docker push),
+#       tag with ${{ github.sha }}; jobs.deploy: needs build, promotes the SHA-tagged image (no :latest).
+#
+# Replace everything below.
+
+on: [push, pull_request]
+jobs: {}

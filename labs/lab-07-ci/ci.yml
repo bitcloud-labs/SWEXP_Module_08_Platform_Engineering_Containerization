@@ -1,0 +1,11 @@
+# Lab 07 — CI/CD pipeline. See README.md.
+#
+# TODO: define a GitHub Actions workflow with:
+#   jobs.build.steps (in order): npm ci -> lint -> test -> docker build -> trivy -> docker push
+#     tag the image with the commit SHA, e.g. docker build -t forge-api:${{ github.sha }} .
+#   jobs.deploy: needs: build, and a step that promotes forge-api:${{ github.sha }} (NOT :latest)
+#
+# Replace everything below with your workflow.
+
+on: [push, pull_request]
+jobs: {}

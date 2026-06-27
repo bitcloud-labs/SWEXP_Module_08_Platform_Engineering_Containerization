@@ -1,0 +1,11 @@
+# Lab 06 — segmented container network. See README.md.
+#
+# TODO: define networks frontend and backend (backend: internal: true), and services:
+#   - web: networks [frontend], ports ["3000:3000"]
+#   - api: networks [frontend, backend]   (bridges the two tiers)
+#   - db:  networks [backend]             (no published ports)
+#
+# Replace everything below with your topology.
+
+services: {}
+networks: {}

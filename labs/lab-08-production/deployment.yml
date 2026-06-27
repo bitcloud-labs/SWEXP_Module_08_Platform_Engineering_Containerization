@@ -1,0 +1,19 @@
+# Lab 08 — production Kubernetes manifests (Deployment + Service). See README.md.
+#
+# TODO: write TWO documents separated by `---`.
+#
+# Document 1 — kind: Deployment, with:
+#   spec.replicas: >= 2
+#   spec.strategy: { type: RollingUpdate, rollingUpdate: { maxUnavailable: 0, maxSurge: 1 } }
+#   the container with:
+#     image: forge-api:1.4.2            (pinned, not :latest)
+#     resources: { requests: {...}, limits: { cpu, memory } }
+#     readinessProbe: {...}
+#     livenessProbe:  {...}
+#     envFrom: [ { secretRef: { name: forge-api-secrets } } ]
+#
+# Document 2 — kind: Service that selects the Deployment's pods.
+#
+# Replace this placeholder with your two documents.
+
+placeholder: true

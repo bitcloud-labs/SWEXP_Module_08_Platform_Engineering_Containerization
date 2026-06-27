@@ -1,0 +1,14 @@
+{
+  "name": "swexp-module-08-platform-containerization",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Forge SWEXP Module 08 — interactive Platform Engineering & Containerization exercises (author Dockerfiles, compose, CI, and k8s manifests; run tests; submit).",
+  "scripts": {
+    "test": "bats -r labs assignments",
+    "check": "bash -c 'shopt -s nullglob; files=(labs/*/solution.sh assignments/*/solution.sh); [ ${#files[@]} -eq 0 ] || bash -n \"${files[@]}\"'",
+    "grade": "node scripts/grade.mjs"
+  },
+  "devDependencies": {
+    "bats": "^1.13.0"
+  }
+}

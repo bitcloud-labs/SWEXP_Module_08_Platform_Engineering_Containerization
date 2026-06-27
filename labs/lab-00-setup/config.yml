@@ -1,0 +1,5 @@
+# Lab 00 — service config. See README.md.
+# TODO: declare the three keys the tests expect:
+#   service: forge-api
+#   port:    a positive integer (e.g. 8080)
+#   replicas: an integer >= 1 (e.g. 2)

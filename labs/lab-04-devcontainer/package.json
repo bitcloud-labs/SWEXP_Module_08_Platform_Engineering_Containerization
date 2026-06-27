@@ -1,0 +1,9 @@
+{
+  "name": "forge",
+  "private": true,
+  "_TODO": "pin engines.node to an exact version, add packageManager, and pin every dependency (no ^ or ~).",
+  "engines": {},
+  "dependencies": {
+    "express": "^4"
+  }
+}

@@ -1,0 +1,6 @@
+# Lab 02 — keep the build context clean. See README.md.
+# TODO: list the paths the build does NOT need. At minimum exclude:
+#   node_modules
+#   .git
+#   .env
+#   *.log

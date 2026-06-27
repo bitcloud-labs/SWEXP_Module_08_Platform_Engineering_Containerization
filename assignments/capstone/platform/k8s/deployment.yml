@@ -1,0 +1,10 @@
+# Capstone — production manifests (Deployment + Service). See README.md.
+#
+# TODO: two documents separated by ---:
+#   Deployment: replicas >= 2; RollingUpdate maxUnavailable 0; requests+limits;
+#               readiness+liveness probes; pinned image (not :latest); envFrom secretRef.
+#   Service: selects the Deployment's pods.
+#
+# Replace this placeholder.
+
+placeholder: true
